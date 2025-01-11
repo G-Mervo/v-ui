@@ -5,69 +5,169 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ABC Platform</title>
     <style>
+      :root {
+        --primary-color: #4facfe;
+        --secondary-color: #00f2fe;
+      }
+
       body {
         margin: 0;
-        font-family: Arial, sans-serif;
-        background: linear-gradient(135deg, #4facfe, #00f2fe);
+        font-family: system-ui, -apple-system, sans-serif;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        min-height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
-        overflow: hidden;
         color: white;
+        overflow: hidden;
       }
 
       .container {
         text-align: center;
-        animation: fadeIn 2s ease-in-out;
+        padding: 2rem;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        animation: slideUp 0.8s ease-out;
       }
 
       h1 {
-        font-size: 2rem;
-        margin-bottom: 20px;
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+        opacity: 0;
+        animation: fadeIn 0.8s ease-out 0.3s forwards;
       }
 
       .loader {
-        width: 50px;
-        height: 50px;
-        border: 6px solid rgba(255, 255, 255, 0.3);
-        border-top: 6px solid white;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-        margin: 0 auto;
+        position: relative;
+        width: 80px;
+        height: 80px;
+        margin: 2rem auto;
+        opacity: 0;
+        animation: fadeIn 0.8s ease-out 0.6s forwards;
       }
 
-      @keyframes spin {
-        0% {
-          transform: rotate(0deg);
-        }
-        100% {
-          transform: rotate(360deg);
-        }
+      .loader:before,
+      .loader:after {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        animation: pulse 1.8s ease-in-out infinite;
+      }
+
+      .loader:before {
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.5);
+        animation-delay: -0.9s;
+      }
+
+      .loader:after {
+        width: 75%;
+        height: 75%;
+        background: white;
+        top: 12.5%;
+        left: 12.5%;
+      }
+
+      .message {
+        font-size: 1.2rem;
+        margin-top: 2rem;
+        opacity: 0;
+        animation: fadeIn 0.8s ease-out 0.9s forwards;
+      }
+
+      .progress-bar {
+        width: 200px;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+        margin: 2rem auto;
+        overflow: hidden;
+        opacity: 0;
+        animation: fadeIn 0.8s ease-out 1.2s forwards;
+      }
+
+      .progress-bar::after {
+        content: "";
+        display: block;
+        width: 40%;
+        height: 100%;
+        background: white;
+        animation: progress 2s ease-in-out infinite;
       }
 
       @keyframes fadeIn {
-        0% {
+        from {
           opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes slideUp {
+        from {
+          transform: translateY(30px);
+        }
+        to {
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(0.6);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1);
+          opacity: 0.5;
         }
         100% {
+          transform: scale(0.6);
           opacity: 1;
         }
       }
 
-      .subtext {
-        font-size: 1rem;
-        margin-top: 10px;
-        opacity: 0;
-        animation: fadeIn 4s ease-in-out forwards;
+      @keyframes progress {
+        0% {
+          transform: translateX(-100%);
+        }
+        50% {
+          transform: translateX(150%);
+        }
+        100% {
+          transform: translateX(-100%);
+        }
+      }
+
+      @media (max-width: 600px) {
+        .container {
+          margin: 1rem;
+          padding: 1.5rem;
+        }
+        h1 {
+          font-size: 1.8rem;
+        }
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <h1>Success! Website is being uploaded shortly.</h1>
+      <h1>Success!</h1>
       <div class="loader"></div>
-      <div class="subtext">Check back soon...</div>
+      <div class="progress-bar"></div>
+      <div class="message">
+        Website is being uploaded shortly.<br />Check back soon...
+      </div>
     </div>
   </body>
 </html>
